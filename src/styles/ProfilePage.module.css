@@ -1,0 +1,139 @@
+.profilePage {
+	padding-top: 48px;
+	padding-bottom: 80px;
+}
+
+.profileGrid {
+	display: grid;
+	grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
+	gap: 24px;
+	align-items: start;
+}
+
+.profileSummary,
+.profileFormCard {
+	border: 1px solid var(--line);
+	border-radius: 20px;
+	background: var(--paper);
+	padding: clamp(24px, 4vw, 42px);
+}
+
+.profileSummary {
+	background: var(--green-soft);
+}
+
+.profileIcon {
+	display: grid;
+	width: 54px;
+	height: 54px;
+	margin-bottom: 28px;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--green);
+	color: white;
+}
+
+.profileSummary h2,
+.profileFormCard h2 {
+	margin-bottom: 8px;
+	font-family: var(--serif);
+	font-size: clamp(24px, 3vw, 34px);
+}
+
+.profileSummary > p:not(:global(.eyebrow)) {
+	color: var(--muted);
+}
+
+.profileStat {
+	display: flex;
+	align-items: baseline;
+	gap: 8px;
+	margin-top: 36px;
+	border-top: 1px solid rgb(61 101 71 / 18%);
+	padding-top: 22px;
+}
+
+.profileStat strong {
+	font-family: var(--serif);
+	font-size: 30px;
+}
+
+.profileStat span,
+.profileJoined,
+.profileHelp {
+	color: var(--muted);
+	font-size: 13px;
+}
+
+.profileJoined {
+	margin-top: 24px;
+}
+
+.profileForm {
+	max-width: 620px;
+	margin-top: 25px;
+}
+
+.profileAddressField {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	border: 1px solid #cfd7cb;
+	border-radius: 10px;
+	background: white;
+	padding: 13px 15px;
+	color: var(--green);
+}
+
+.profileAddressField:focus-within {
+	outline: 3px solid #c28d3d;
+	outline-offset: 3px;
+}
+
+.profileAddressField textarea {
+	width: 100%;
+	border: 0;
+	outline: 0;
+	padding: 0;
+	color: var(--ink);
+	font-size: 14px;
+}
+
+.profileAddressField textarea:focus {
+	outline: 0;
+}
+
+.profileHelp {
+	margin: -3px 0 15px;
+	line-height: 1.5;
+}
+
+.profileMessage {
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: var(--paper);
+	padding: 28px;
+}
+
+.profileMessageError {
+	border-color: #e2b8ae;
+	color: #923d2f;
+}
+
+.formSuccess {
+	margin: 0 0 15px;
+	color: var(--green-dark);
+	font-size: 14px;
+	font-weight: 700;
+}
+
+@media (max-width: 700px) {
+	.profilePage {
+		padding-top: 30px;
+		padding-bottom: 50px;
+	}
+
+	.profileGrid {
+		grid-template-columns: 1fr;
+	}
+}

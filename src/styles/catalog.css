@@ -1,0 +1,37 @@
+.floating-cart-button {
+	position: fixed;
+	z-index: 15;
+	right: 26px;
+	bottom: 26px;
+	display: inline-flex;
+	min-width: 62px;
+	height: 62px;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	border: 2px solid #fffdf8;
+	border-radius: 999px;
+	padding: 0 17px;
+	background: var(--green);
+	box-shadow: 0 8px 24px rgb(36 57 38 / 25%);
+	color: #fffdf8;
+	transition: background 160ms ease, transform 160ms ease;
+}
+
+.floating-cart-button:hover {
+	transform: translateY(-3px);
+	background: var(--green-dark);
+}
+
+.floating-cart-count {
+	display: grid;
+	min-width: 23px;
+	height: 23px;
+	place-items: center;
+	border-radius: 999px;
+	padding: 0 5px;
+	background: #fffdf8;
+	color: var(--green-dark);
+	font-size: 12px;
+	font-weight: 800;
+}

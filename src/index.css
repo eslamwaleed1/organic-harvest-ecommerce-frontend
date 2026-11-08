@@ -1,0 +1,16 @@
+/*
+ * Global stylesheet manifest.
+ * Feature styles remain in this folder so each area has one clear editing home.
+ * Import order intentionally matches the former monolithic stylesheet.
+ */
+@import "./styles/global.css";
+@import "./styles/profile.css";
+@import "./styles/produce-feedback.css";
+@import "./styles/chrome.css";
+@import "./styles/storefront.css";
+@import "./styles/catalog.css";
+@import "./styles/cart-orders.css";
+@import "./styles/auth.css";
+@import "./styles/dashboard.css";
+@import "./styles/responsive.css";
+@import "./styles/admin-management.css";

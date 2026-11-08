@@ -1,0 +1,168 @@
+.messagePage {
+	display: flex;
+	min-height: 100svh;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 24px;
+	background:
+		radial-gradient(ellipse at 50% 20%, #f1ecd9 0, transparent 43%),
+		var(--cream);
+}
+
+.messageHeader {
+	display: flex;
+	width: min(100%, 1180px);
+	min-height: 92px;
+	align-items: center;
+}
+
+.messageCard {
+	display: flex;
+	width: min(100%, 520px);
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 30px 20px 56px;
+	text-align: center;
+}
+
+.messageArt {
+	position: relative;
+	display: grid;
+	width: 106px;
+	height: 106px;
+	place-items: center;
+	margin-bottom: 28px;
+	border: 1px solid #dce3d2;
+	border-radius: 50%;
+	background: #edf0e5;
+	color: #648064;
+}
+
+.messageArtSuccess {
+	background: #e9f1e5;
+	color: var(--green);
+}
+
+.messageArtSun {
+	position: absolute;
+	top: -2px;
+	right: -3px;
+	width: 30px;
+	height: 30px;
+	border: 5px solid var(--cream);
+	border-radius: 50%;
+	background: #e4c47b;
+}
+
+.messageCard :global(.eyebrow) {
+	margin-bottom: 8px;
+}
+
+.messageCard h1 {
+	margin-bottom: 12px;
+	font-size: clamp(36px, 5vw, 48px);
+	letter-spacing: -1.6px;
+}
+
+.messageDescription {
+	max-width: 415px;
+	margin-bottom: 24px;
+	color: #74796e;
+	font-size: 15px;
+	line-height: 1.8;
+}
+
+.resendLink {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 5px;
+	margin-bottom: 3px;
+}
+
+.resendLink button,
+.messageBack {
+	border: 0;
+	padding: 5px;
+	background: transparent;
+	color: var(--green);
+	font-size: 13px;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.resendLink button:hover:not(:disabled) {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.resendLink button:disabled {
+	color: #969c8c;
+	cursor: not-allowed;
+}
+
+.resendLink p {
+	margin: 5px 0 0;
+	color: #637660;
+	font-size: 12px;
+}
+
+.messageDivider {
+	width: 100%;
+	height: 1px;
+	margin: 16px 0 19px;
+	background: var(--line);
+}
+
+.messageSmall {
+	margin-bottom: 12px;
+	color: #828579;
+	font-size: 13px;
+}
+
+.messageSmall a {
+	color: var(--green);
+	font-weight: 800;
+}
+
+.messageBack {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	margin-top: 17px;
+}
+
+.messageFooter {
+	margin: 0;
+	padding: 20px 0 26px;
+	color: #999b8d;
+	font-family: var(--serif);
+	font-size: 12px;
+	font-style: italic;
+}
+
+.spin {
+	animation: spin 1.4s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (max-width: 700px) {
+	.messagePage {
+		padding: 0 19px;
+	}
+
+	.messageHeader {
+		min-height: 75px;
+	}
+
+	.messageCard {
+		padding: 15px 5px 35px;
+	}
+}

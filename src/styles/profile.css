@@ -1,0 +1,21 @@
+.profile-header-link {
+	color: #5c6a5c;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.profile-header-link:hover {
+	color: #a97936;
+}
+
+.profile-message {
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: var(--paper);
+	padding: 28px;
+}
+
+.profile-message--error {
+	border-color: #e2b8ae;
+	color: #923d2f;
+}

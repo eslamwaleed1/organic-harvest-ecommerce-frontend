@@ -1,0 +1,21 @@
+
+
+.produce-boxes {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 20px;
+	margin-top: 20px;
+}
+
+.produce-section-heading {
+	margin-top: 56px;
+}
+
+.produce-section-heading h2 {
+	margin: 0;
+	color: var(--ink);
+	font-family: var(--serif);
+	font-size: clamp(30px, 4vw, 42px);
+	font-weight: 500;
+}
+

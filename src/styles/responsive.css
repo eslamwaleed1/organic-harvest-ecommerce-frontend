@@ -1,0 +1,232 @@
+@media (min-width: 1500px) {
+	.hero {
+		min-height: 690px;
+	}
+
+	.hero-photo {
+		height: 510px;
+	}
+}
+
+@media (max-width: 1000px) {
+	.hero {
+		min-height: 560px;
+		gap: 42px;
+		padding-right: 5vw;
+		padding-left: 5vw;
+	}
+
+	.hero-photo {
+		height: 400px;
+	}
+
+	.section-wrap {
+		margin: 0 5vw;
+	}
+
+	.promise-strip {
+		gap: 30px;
+	}
+
+	.family-note {
+		padding-right: 6vw;
+		padding-left: 6vw;
+	}
+
+}
+
+@media (max-width: 700px) {
+	.profile-header-link {
+		font-size: 12px;
+	}
+
+	.produce-boxes {
+		grid-template-columns: 1fr;
+		gap: 16px;
+		margin-top: 16px;
+	}
+
+	.produce-section-heading {
+		margin-top: 40px;
+	}
+
+	.button--small {
+		min-height: 38px;
+		padding: 0 13px;
+		font-size: 11px;
+	}
+
+	.hero {
+		grid-template-columns: 1fr;
+		gap: 31px;
+		padding: 43px 23px 58px;
+	}
+
+	.hero-copy {
+		max-width: none;
+		padding: 0;
+	}
+
+	.hero h1 {
+		max-width: 550px;
+		font-size: clamp(47px, 12vw, 64px);
+	}
+
+	.hero-description {
+		max-width: 500px;
+		font-size: 15px;
+	}
+
+	.hero-actions {
+		flex-wrap: wrap;
+		gap: 15px;
+	}
+
+	.hero-note {
+		margin-top: 27px;
+	}
+
+	.hero-photo {
+		height: 330px;
+		border-radius: 48% 48% 10px 10px;
+	}
+
+	.photo-badge {
+		top: 24px;
+		right: 14px;
+		width: 88px;
+		height: 88px;
+	}
+
+	.hero-index {
+		right: 22px;
+		bottom: 18px;
+		font-size: 8px;
+	}
+
+	.promise-strip {
+		min-height: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 18px 13px;
+		padding: 23px 19px;
+	}
+
+	.promise-item {
+		gap: 8px;
+	}
+
+	.promise-item svg {
+		width: 19px;
+		flex-shrink: 0;
+	}
+
+	.promise-item strong {
+		font-size: 11px;
+	}
+
+	.promise-item small {
+		font-size: 9px;
+	}
+
+	.section-wrap {
+		margin: 0 20px;
+		padding: 58px 0 51px;
+	}
+
+	.section-heading {
+		align-items: start;
+		flex-direction: column;
+		gap: 8px;
+		margin-bottom: 21px;
+	}
+
+	.section-heading > p br {
+		display: none;
+	}
+
+	.section-heading h2 {
+		font-size: 36px;
+	}
+
+	.market-cta {
+		align-items: start;
+		flex-direction: column;
+	}
+
+	.market-cta p {
+		font-size: 15px;
+	}
+
+	.family-note {
+		grid-template-columns: 1fr;
+		gap: 28px;
+		padding: 42px 22px;
+	}
+
+	.family-photo {
+		min-height: 245px;
+	}
+
+	.family-copy h2 {
+		font-size: 36px;
+	}
+
+	.admin-welcome {
+		grid-template-columns: 1fr;
+		gap: 25px;
+		padding: 43px 23px 34px;
+	}
+
+	.admin-welcome h1 {
+		font-size: 44px;
+	}
+
+	.admin-content {
+		padding-top: 47px;
+	}
+
+	.admin-cards {
+		grid-template-columns: 1fr;
+		gap: 13px;
+	}
+
+	.admin-welcome-art {
+		width: 165px;
+		height: 165px;
+	}
+
+	.admin-welcome-art svg {
+		width: 90px;
+	}
+
+	.admin-card {
+		padding: 20px;
+	}
+
+	.admin-card-title h3 {
+		font-size: 20px;
+	}
+
+	.admin-note {
+		align-items: start;
+		padding: 16px;
+	}
+}
+
+@media (max-width: 380px) {
+	.button--small {
+		min-height: 35px;
+		padding: 0 10px;
+		font-size: 10px;
+	}
+
+	.hero h1 {
+		font-size: 45px;
+	}
+
+	.hero-actions > .button {
+		padding: 0 17px;
+		font-size: 12px;
+	}
+}
