@@ -11,6 +11,13 @@ import { authApi } from "./lib/api.js";
 import GuestHomePage from "./pages/public/GuestHomePage.jsx";
 import VerifyEmailPage from "./pages/public/VerifyEmailPage.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
+
+function hasLoginMarker() {
+	return document.cookie
+		.split(";")
+		.some((cookie) => cookie.trim() === "is_logged_in=true");
+}
+
 const LoginPage = lazy(() => import("./pages/public/LoginPage.jsx"));
 const SignUpPage = lazy(() => import("./pages/public/SignUpPage.jsx"));
 const CheckEmailPage = lazy(() => import("./pages/public/CheckEmailPage.jsx"));
@@ -57,9 +64,13 @@ function AdminRoute({ isAuthLoading, isLoggedIn, userRole }) {
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [userRole, setUserRole] = useState("");
-	const [isAuthLoading, setIsAuthLoading] = useState(true);
+	const [isAuthLoading, setIsAuthLoading] = useState(hasLoginMarker);
 
 	useEffect(() => {
+		if (!hasLoginMarker()) {
+			return undefined;
+		}
+
 		let isActive = true;
 		authApi.me()
 			.then((result) => {

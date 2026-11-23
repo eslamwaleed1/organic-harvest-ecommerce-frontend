@@ -12,9 +12,11 @@ A React + Vite farm-stand storefront with login, signup, and a protected member 
 The frontend sends JSON `POST` requests to the configured login and signup routes.
 Login sends `{ "email": "...", "password": "..." }`; signup sends
 `{ "name": "...", "email": "...", "password": "..." }`. Successful responses may
-The backend sets the JWT in an HttpOnly cookie; the frontend does not read or
-store the JWT. Requests automatically include cookies. On startup, the frontend
-calls `VITE_AUTH_ME_PATH` to check whether the cookie represents a valid login;
+The backend sets the JWT in an HttpOnly cookie and a short-lived,
+client-readable login marker; the frontend does not read or store the JWT.
+Requests automatically include cookies. On startup, the frontend calls
+`VITE_AUTH_ME_PATH` only when the login marker exists, to check whether the JWT
+represents a valid login;
 the endpoint should return the current user (for example, `{ "user": { "name":
 "...", "email": "..." } }`). Signing out sends a `POST` to
 `VITE_AUTH_LOGOUT_PATH`, which should clear the cookie. The member page is a

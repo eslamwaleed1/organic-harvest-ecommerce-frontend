@@ -117,7 +117,7 @@ export const feedbackApi = {
 export const adminApi = {
 	summary: () => apiRequest("/api/admin/reports/summary"),
 	users: () => apiRequest("/api/users"),
-	products: () => apiRequest("/api/products/"),
+	products: () => apiRequest("/api/products"),
 	createProduct: (payload) => jsonRequest("/api/products/new", "POST", payload),
 	updateProduct: (id, payload) => jsonRequest(`/api/products/${id}`, "PATCH", payload),
 	deleteProduct: (id) => apiRequest(`/api/products/${id}`, { method: "DELETE" }),
@@ -131,7 +131,7 @@ export const adminApi = {
 
 export const api = {
 	users: () => apiRequest("/api/users"),
-	products: () => apiRequest("/api/products/"),
+	products: () => apiRequest("/api/products"),
 	categories: () => apiRequest("/api/products/categories"),
 	orders: () => apiRequest("/api/orders"),
 	userOrders: () => apiRequest("/api/users/orders"),
