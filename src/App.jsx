@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import {
 	BrowserRouter,
 	Routes,
@@ -6,7 +6,7 @@ import {
 	Navigate,
 	Outlet,
 } from "react-router-dom";
-import Cookies from "js-cookie";
+import { authApi } from "./lib/api.js";
 
 import GuestHomePage from "./pages/public/GuestHomePage.jsx";
 import VerifyEmailPage from "./pages/public/VerifyEmailPage.jsx";
@@ -35,41 +35,54 @@ const AdminSetPasswordPage = lazy(() => import("./pages/public/AdminSetPasswordP
 const ForgotPasswordPage = lazy(() => import("./pages/public/ForgotPasswordPage.jsx"));
 
 
-const checkAuth = () => {
-	return Cookies.get("is_logged_in") === "true";
-};
-
-const getStoredUserRole = () => {
-	const rawData = Cookies.get("user_data");
-	if (!rawData) return "";
-	try {
-		return String(JSON.parse(rawData).role ?? "").trim().toLowerCase();
-	} catch (error) {
-		console.error("Failed to parse user_data cookie:", error);
-		return "";
-	}
-};
-
 function GuestRoute({ isLoggedIn, redirectTo }) {
 	if (isLoggedIn) return <Navigate to={redirectTo} replace />;
 	return <Outlet />;
 }
 
-function MemberRoute({ isLoggedIn, userRole }) {
+function MemberRoute({ isAuthLoading, isLoggedIn, userRole }) {
+	if (isAuthLoading) return <p role="status">Checking your session...</p>;
 	if (!isLoggedIn) return <Navigate to="/login" replace />;
 	if (userRole === "admin") return <Navigate to="/admin/home" replace />;
 	return <Outlet />;
 }
 
-function AdminRoute({ isLoggedIn, userRole }) {
+function AdminRoute({ isAuthLoading, isLoggedIn, userRole }) {
+	if (isAuthLoading) return <p role="status">Checking your session...</p>;
 	if (!isLoggedIn) return <Navigate to="/login" replace />;
 	if (userRole !== "admin") return <Navigate to="/member/home" replace />;
 	return <Outlet />;
 }
 
 function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(checkAuth);
-	const [userRole, setUserRole] = useState(getStoredUserRole);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [userRole, setUserRole] = useState("");
+	const [isAuthLoading, setIsAuthLoading] = useState(true);
+
+	useEffect(() => {
+		let isActive = true;
+		authApi.me()
+			.then((result) => {
+				if (!isActive) return;
+				const role = String(result?.data?.role ?? "").trim().toLowerCase();
+				if (role === "admin" || role === "member") {
+					setUserRole(role);
+					setIsLoggedIn(true);
+				}
+			})
+			.catch((error) => {
+				if (error.status !== 401 && error.status !== 403) {
+					console.error("Failed to restore login session:", error);
+				}
+			})
+			.finally(() => {
+				if (isActive) setIsAuthLoading(false);
+			});
+
+		return () => {
+			isActive = false;
+		};
+	}, []);
 
 	const getUserHomePage = () => {
 		if (userRole === "member") return "/member/home";
@@ -115,7 +128,7 @@ function App() {
 							<Route path="/forgot-password" element={<ForgotPasswordPage />} />
 						</Route>
 						<Route path="/reset-password" element={<AdminSetPasswordPage />} />
-						<Route element={<MemberRoute isLoggedIn={isLoggedIn} userRole={userRole} />}>
+						<Route element={<MemberRoute isAuthLoading={isAuthLoading} isLoggedIn={isLoggedIn} userRole={userRole} />}>
 							<Route
 								path="/member/home"
 								element={
@@ -141,7 +154,7 @@ function App() {
 								element={<PaymentCancelPage />}
 							/>
 						</Route>
-						<Route element={<AdminRoute isLoggedIn={isLoggedIn} userRole={userRole} />}>
+						<Route element={<AdminRoute isAuthLoading={isAuthLoading} isLoggedIn={isLoggedIn} userRole={userRole} />}>
 							<Route
 								path="/admin/home"
 								element={

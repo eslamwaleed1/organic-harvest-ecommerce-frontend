@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { authApi } from "../../lib/api.js";
 import { ArrowRight } from "lucide-react";
-import Cookies from "js-cookie";
 import GoogleSignInButton from "../../components/GoogleSignInButton.jsx";
 import { AuthLayout } from "../../components/SiteChrome.jsx";
 import styles from "../../styles/AuthForms.module.css";
@@ -12,18 +11,6 @@ export default function LoginPage({ setIsLoggedIn, setUserRole }) {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	function getUserRole() {
-		const rawData = Cookies.get("user_data");
-		if (rawData) {
-			try {
-				const parsedData = JSON.parse(rawData);
-				return String(parsedData.role ?? "").trim().toLowerCase();
-			} catch (error) {
-				console.error("Failed to parse user_data cookie:", error);
-			}
-		}
-	}
-
 	async function handleSubmit(event) {
 		event.preventDefault();
 		setErrorMessage("");
@@ -31,21 +18,25 @@ export default function LoginPage({ setIsLoggedIn, setUserRole }) {
 		try {
 			const formData = new FormData(event.currentTarget);
 			const result = await authApi.login({
-					email: formData.get("email"),
-					password: formData.get("password"),
-				});
-			if (result) {
-					if (result.code === "EMAIL_NOT_VERIFIED") {
-						navigate("/check-email");
-						return;
-					}
-					const role = getUserRole();
-				setUserRole(role);
-				setIsLoggedIn(Cookies.get("is_logged_in") === "true");
-				if (role === "admin") navigate("/admin/home");
-				else if (role === "member") navigate("/member/home");
-				else setErrorMessage("Your account role could not be determined.");
+				email: formData.get("email"),
+				password: formData.get("password"),
+			});
+			if (result?.code === "EMAIL_NOT_VERIFIED") {
+				navigate("/check-email");
+				return;
 			}
+			if (!result?.success) {
+				throw new Error(result?.message || "We couldn't sign you in.");
+			}
+
+			const role = String(result.data?.role ?? "").trim().toLowerCase();
+			if (role !== "admin" && role !== "member") {
+				throw new Error("Your account role could not be determined.");
+			}
+
+			setUserRole(role);
+			setIsLoggedIn(true);
+			navigate(role === "admin" ? "/admin/home" : "/member/home");
 		} catch (error) {
 			console.error(error);
 			setErrorMessage(error.message || "We couldn't sign you in. Please try again.");

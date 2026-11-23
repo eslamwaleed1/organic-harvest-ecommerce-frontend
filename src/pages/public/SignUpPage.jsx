@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { authApi } from "../../lib/api.js";
 import { ArrowRight } from "lucide-react";
-import Cookies from "js-cookie";
 import GoogleSignInButton from "../../components/GoogleSignInButton.jsx";
 import { AuthLayout } from "../../components/SiteChrome.jsx";
 import styles from "../../styles/AuthForms.module.css";
@@ -24,7 +23,7 @@ export default function SignUpPage({ setIsLoggedIn, setUserRole }) {
 					password: formData.get("password"),
 				});
 			if (result) {
-				setIsLoggedIn(Cookies.get("is_logged_in") === "true");
+				setIsLoggedIn(false);
 				navigate("/check-email");
 			}
 		} catch (error) {

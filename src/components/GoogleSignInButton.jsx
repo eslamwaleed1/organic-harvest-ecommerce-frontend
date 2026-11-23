@@ -1,6 +1,5 @@
 
 import { GoogleLogin } from "@react-oauth/google";
-import Cookies from "js-cookie";
 import { authApi } from "../lib/api.js";
 
 export default function GoogleSignInButton({ setIsLoggedIn, setUserRole }) {
@@ -20,9 +19,7 @@ export default function GoogleSignInButton({ setIsLoggedIn, setUserRole }) {
                 );
             }
 
-            const role = String(
-                result.data?.role || getStoredUserRole() || "",
-            ).trim().toLowerCase();
+            const role = String(result.data?.role ?? "").trim().toLowerCase();
             if (role !== "admin" && role !== "member") {
                 throw new Error("Your account role could not be determined.");
             }
@@ -34,17 +31,6 @@ export default function GoogleSignInButton({ setIsLoggedIn, setUserRole }) {
             alert(error.message || "Google sign-in failed.");
         }
 
-        function getStoredUserRole() {
-            const rawData = Cookies.get("user_data");
-            if (!rawData) return "";
-
-            try {
-                return JSON.parse(rawData).role;
-            } catch (error) {
-                console.error("Failed to parse user_data cookie:", error);
-                return "";
-            }
-        }
     }
 
     return (

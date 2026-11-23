@@ -81,6 +81,7 @@ const jsonRequest = (path, method, payload) =>
 
 export const authApi = {
 	login: (payload) => jsonRequest("/api/auth/login", "POST", payload),
+	me: () => apiRequest("/api/auth/me"),
 	forgotPassword: (payload) => jsonRequest("/api/auth/forgot-password", "POST", payload),
 	resetPassword: (payload) => jsonRequest("/api/auth/reset-password", "POST", payload),
 	changePassword: () => apiRequest("/api/auth/change-password", { method: "POST" }),

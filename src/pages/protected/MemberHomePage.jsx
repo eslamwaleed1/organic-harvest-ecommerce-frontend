@@ -9,7 +9,6 @@ import {
 	ShoppingCart,
 	Sprout,
 } from "lucide-react";
-import Cookies from "js-cookie";
 import { authApi } from "../../lib/api.js";
 import { DashboardHeader, SiteFooter } from "../../components/SiteChrome.jsx";
 import ProductCatalog from "../../components/ProductCatalog.jsx";
@@ -41,7 +40,7 @@ export default function MemberHomePage({ setIsLoggedIn, setUserRole }) {
 		try {
 			const result = await authApi.logout();
 			if (result) {
-				setIsLoggedIn(Cookies.get("is_logged_in") === "true");
+				setIsLoggedIn(false);
 				setUserRole("");
 				navigate("/login");
 			}
