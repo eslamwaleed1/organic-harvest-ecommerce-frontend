@@ -27,6 +27,20 @@ origin and credentials (not `*`), and configure the cookie's `SameSite` and
 compiled into the frontend by Vite, so set the appropriate value before
 building for production.
 
+## Deploying with Vercel and Render
+
+- In Vercel, set `VITE_API_URL` to the Render service's public origin, such as
+  `https://your-service.onrender.com`. Do not include `/--`, `/api`, or any
+  other path. Redeploy after changing this variable.
+- Set `VITE_GOOGLE_CLIENT_ID` to your Google OAuth web client ID. In that
+  client's authorized JavaScript origins, add
+  `https://organic-harvest-ecommerce-frontend.vercel.app` (without a trailing
+  slash; add `http://localhost:5173` for local development). Set the same
+  client ID as `GOOGLE_CLIENT_ID` in Render.
+- Set `NODE_ENV=production` in Render. The backend then sets cross-site
+  cookies with `SameSite=None; Secure`; the backend CORS allowlist must also
+  contain the exact Vercel origin.
+
 ## Scripts
 
 - `npm run dev` — start the Vite development server

@@ -1,6 +1,31 @@
 const API_BASE_URL = (
-	import.meta.env.VITE_API_URL || "http://localhost:5000"
+	import.meta.env.VITE_API_URL ||
+	(import.meta.env.DEV ? "http://localhost:5000" : "")
 ).trim().replace(/\/+$/, "");
+
+function getApiUrl(path) {
+	let backendUrl;
+	try {
+		backendUrl = new URL(API_BASE_URL);
+	} catch {
+		throw new Error(
+			"VITE_API_URL must be an absolute backend origin, such as https://your-service.onrender.com. Set it in Vercel and redeploy.",
+		);
+	}
+
+	if (
+		!["http:", "https:"].includes(backendUrl.protocol) ||
+		backendUrl.pathname !== "/" ||
+		backendUrl.search ||
+		backendUrl.hash
+	) {
+		throw new Error(
+			"VITE_API_URL must contain only the backend origin, without a path. Set it in Vercel and redeploy.",
+		);
+	}
+
+	return new URL(path.replace(/^\/+/, ""), backendUrl.origin).toString();
+}
 
 function getErrorMessage(payload, status) {
 	if (typeof payload === "string" && payload) return payload;
@@ -8,7 +33,7 @@ function getErrorMessage(payload, status) {
 }
 
 export async function apiRequest(path, options = {}) {
-	const url = `${API_BASE_URL}/${path.replace(/^\/+/, "")}`;
+	const url = getApiUrl(path);
 	const headers = new Headers(options.headers);
 
 	if (options.body && !headers.has("Content-Type")) {
