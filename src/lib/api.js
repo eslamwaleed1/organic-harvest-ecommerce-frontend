@@ -1,6 +1,7 @@
 const API_BASE_URL = (
-	import.meta.env.VITE_API_URL ||
-	(import.meta.env.DEV ? "http://localhost:5000" : "")
+	import.meta.env.DEV
+		? import.meta.env.VITE_API_URL || "http://localhost:5000"
+		: window.location.origin
 ).trim().replace(/\/+$/, "");
 
 function getApiUrl(path) {
@@ -9,7 +10,7 @@ function getApiUrl(path) {
 		backendUrl = new URL(API_BASE_URL);
 	} catch {
 		throw new Error(
-			"VITE_API_URL must be an absolute backend origin, such as https://your-service.onrender.com. Set it in Vercel and redeploy.",
+			"VITE_API_URL must be an absolute backend origin, such as http://localhost:5000.",
 		);
 	}
 
@@ -20,7 +21,7 @@ function getApiUrl(path) {
 		backendUrl.hash
 	) {
 		throw new Error(
-			"VITE_API_URL must contain only the backend origin, without a path. Set it in Vercel and redeploy.",
+			"VITE_API_URL must contain only the backend origin, without a path.",
 		);
 	}
 

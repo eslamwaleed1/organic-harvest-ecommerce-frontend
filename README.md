@@ -21,17 +21,16 @@ the endpoint should return the current user (for example, `{ "user": { "name":
 frontend route guard for testing the flow, not a substitute for authorization
 checks in your backend.
 
-For cross-origin API requests, configure CORS to allow the exact frontend
-origin and credentials (not `*`), and configure the cookie's `SameSite` and
-`Secure` attributes for your development/production origins. The API URL is
-compiled into the frontend by Vite, so set the appropriate value before
-building for production.
+For local cross-origin API requests, configure CORS to allow the exact frontend
+origin and credentials (not `*`). Production API requests are sent through the
+Vercel rewrite, so they are same-origin with the frontend.
 
 ## Deploying with Vercel and Render
 
-- In Vercel, set `VITE_API_URL` to the Render service's public origin, such as
-  `https://your-service.onrender.com`. Do not include `/--`, `/api`, or any
-  other path. Redeploy after changing this variable.
+- The Vercel rewrite in `vercel.json` forwards `/api/*` requests to the Render
+  service. Remove `VITE_API_URL` from Vercel if it is set; production uses the
+  Vercel origin automatically. Keep `VITE_API_URL=http://localhost:5000` in the
+  local `.env` for development.
 - Set `VITE_GOOGLE_CLIENT_ID` to your Google OAuth web client ID. In that
   client's authorized JavaScript origins, add
   `https://organic-harvest-ecommerce-frontend.vercel.app` (without a trailing
