@@ -111,6 +111,9 @@ export default function CartPage() {
 								<strong>Total</strong>
 								<strong>{formatPrice(total)}</strong>
 							</div>
+							<p className={styles.paymentTestNote} role="note">
+								For testing, use 5555 5555 5555 4444, any future date and any csv.
+							</p>
 							<CheckoutButton cartItems={items} />
 							<p>Fresh goodness, gathered with care.</p>
 						</aside>

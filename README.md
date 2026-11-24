@@ -41,6 +41,10 @@ Vercel rewrite, so they are same-origin with the frontend.
 - Set `NODE_ENV=production` in Render. The backend then sets cross-site
   cookies with `SameSite=None; Secure`; the backend CORS allowlist must also
   contain the exact Vercel origin.
+- Set `FRONTEND_URL=https://organic-harvest-ecommerce-frontend.vercel.app` in
+  Render (without a trailing slash). Stripe uses this frontend origin for its
+  successful and cancelled checkout redirects; the local backend example uses
+  `http://localhost:5173`.
 
 ## Scripts
 

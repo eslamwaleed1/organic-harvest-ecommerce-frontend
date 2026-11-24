@@ -170,6 +170,16 @@
 	font-size: 16px;
 }
 
+.paymentTestNote {
+	margin: 16px 0 8px;
+	border-radius: 6px;
+	padding: 10px 12px;
+	background: var(--green-soft);
+	color: var(--green-dark);
+	font-size: 12px;
+	line-height: 1.5;
+}
+
 .cartSummary > p:last-child {
 	margin: 22px 0 0;
 	color: var(--muted);
