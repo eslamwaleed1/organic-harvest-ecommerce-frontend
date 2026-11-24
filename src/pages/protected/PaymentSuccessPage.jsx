@@ -19,6 +19,37 @@ export default function PaymentSuccessPage() {
         let timeoutId;
         let attempts = 0;
 
+        function applyStatus(data) {
+            setOrder(data);
+
+            if (data.status === "paid") {
+                clearCart();
+                setState("paid");
+                return true;
+            }
+
+            if (data.status === "failed" || data.status === "cancelled") {
+                setState(data.status);
+                return true;
+            }
+
+            return false;
+        }
+
+        async function finalizeOrder() {
+            const result = await apiRequest(
+                `/api/payments/session/${encodeURIComponent(sessionId)}/finalize`,
+                { method: "POST" }
+            );
+
+            if (stopped) return;
+            if (!result?.success || !result?.data) {
+                throw new Error(result?.message || "Could not finalize your payment.");
+            }
+
+            if (!applyStatus(result.data)) setState("pending");
+        }
+
         async function checkOrderStatus() {
             if (!sessionId) {
                 setState("error");
@@ -32,36 +63,28 @@ export default function PaymentSuccessPage() {
                 );
 
                 if (stopped) return;
-
                 if (!result?.success || !result?.data) {
                     throw new Error(
                         result?.message || "Could not retrieve your order."
                     );
                 }
 
-                setOrder(result.data);
-
-                if (result.data.status === "paid") {
-                    setState("paid");
-                    clearCart()
-                    return;
-                }
-
-                if (result.data.status === "cancelled") {
-                    setState("cancelled");
-                    return;
-                }
+                if (applyStatus(result.data)) return;
 
                 attempts += 1;
-
-                if (attempts >= 15) {
-                    setState("pending");
+                if (attempts >= 5) {
+                    await finalizeOrder();
                     return;
                 }
 
-                timeoutId = setTimeout(checkOrderStatus, 2000);
+                timeoutId = setTimeout(checkOrderStatus, 1000);
             } catch (err) {
                 if (stopped) return;
+
+                if (err.status === 404) {
+                    setState("failed");
+                    return;
+                }
 
                 setState("error");
                 setError(
@@ -125,19 +148,31 @@ export default function PaymentSuccessPage() {
         );
     }
 
+    if (state === "failed") {
+        return (
+            <main className={styles.paymentResultPage}>
+                <section className={styles.paymentResultCard}>
+                    <div className={`${styles.paymentResultIcon} ${styles.paymentResultIconCancelled}`}><CircleX size={42} /></div>
+                    <p className="eyebrow">Payment not completed</p>
+                    <h1>Payment failed</h1>
+                    <p>The payment was not completed and the pending order was removed. Please try again.</p>
+                    <Link className="button button--primary" to="/member/cart">Return to your basket <ArrowRight size={16} /></Link>
+                </section>
+            </main>
+        );
+    }
+
     if (state === "pending") {
         return (
             <main className={styles.paymentResultPage}>
                 <section className={styles.paymentResultCard}>
                 <div className={`${styles.paymentResultIcon} ${styles.paymentResultIconPending}`}><LoaderCircle size={42} /></div>
-                <p className="eyebrow">Almost there</p>
+                <p className="eyebrow">Payment status</p>
                 <h1>Payment is still processing</h1>
                 <p>
-                    We haven't received final confirmation yet.
-                    Please check again shortly in your order history
-                    or return to this page later.
+                    Stripe has not confirmed the payment yet. Please don't submit another payment while this one is processing.
                 </p>
-                <Link className="button button--primary" to="/">Continue shopping <ArrowRight size={16} /></Link>
+                <Link className="button button--outline" to="/member/orders">View your orders <ArrowRight size={16} /></Link>
                 </section>
             </main>
         );

@@ -1,6 +1,29 @@
-# Little Acre & Co. frontend
+# Organic Harvest Frontend
 
-A React + Vite farm-stand storefront with login, signup, and a protected member page.
+## Architecture
+
+The frontend is a component-based React single-page application built with Vite.
+`src/App.jsx` defines the React Router routes and public, member, and admin route
+guards. Shared UI is composed from `src/components/`, while route-level screens
+are grouped in `src/pages/public/` and `src/pages/protected/`. Reusable state and
+data behavior lives in hooks, context providers, and the API client.
+
+Styling is deliberately divided into small, focused files:
+
+- Page and component CSS Modules in `src/styles/` keep styles local to their
+  corresponding UI.
+- Shared styles are split by concern (global foundations, storefront, catalog,
+  cart/orders, auth, profile, chrome, and admin) and imported through
+  `src/index.css`.
+- `responsive.css` holds shared breakpoints and responsive adjustments.
+
+This keeps presentation, route screens, shared components, and data behavior
+separate while letting the app share a consistent visual system.
+
+## Overview
+
+A React + Vite farm-stand storefront with login, signup, and protected member
+and admin pages.
 
 ## Run locally
 
@@ -11,8 +34,8 @@ A React + Vite farm-stand storefront with login, signup, and a protected member 
 
 The frontend sends JSON `POST` requests to the configured login and signup routes.
 Login sends `{ "email": "...", "password": "..." }`; signup sends
-`{ "name": "...", "email": "...", "password": "..." }`. Successful responses may
-The backend sets the JWT in an HttpOnly cookie and a short-lived,
+`{ "name": "...", "email": "...", "password": "..." }`. On successful
+authentication, the backend sets the JWT in an HttpOnly cookie and a short-lived,
 client-readable login marker; the frontend does not read or store the JWT.
 Requests automatically include cookies. On startup, the frontend calls
 `VITE_AUTH_ME_PATH` only when the login marker exists, to check whether the JWT
@@ -45,6 +68,12 @@ Vercel rewrite, so they are same-origin with the frontend.
   Render (without a trailing slash). Stripe uses this frontend origin for its
   successful and cancelled checkout redirects; the local backend example uses
   `http://localhost:5173`.
+- Configure the Stripe webhook endpoint as
+  `https://organic-harvest-ecommerce-backend.onrender.com/api/payments/webhook`
+  and subscribe it to `checkout.session.completed`,
+  `checkout.session.async_payment_succeeded`,
+  `checkout.session.async_payment_failed`, and `checkout.session.expired`.
+  Set the endpoint signing secret as `STRIPE_WEBHOOK_SECRET` in Render.
 
 ## Scripts
 
